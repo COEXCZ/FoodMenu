@@ -7,7 +7,9 @@
  */
 $_lang['foodmenu'] = 'FoodMenu';
 $_lang['foodmenu.menu_desc'] = 'Správa jídelního lístku.';
-$_lang['foodmenu.search...'] = 'Hledat...';
+$_lang['foodmenu.search'] = 'Hledat';
+$_lang['foodmenu.clear_filter'] = 'Zrušit filtr';
+$_lang['foodmenu.posiiton'] = 'Pozice';
 
 //Dishes
 $_lang['foodmenu.dish'] = 'Jídlo';
@@ -24,6 +26,8 @@ $_lang['foodmenu.price'] = 'Cena';
 $_lang['foodmenu.weight'] = 'Váha';
 $_lang['foodmenu.tip'] = 'Tip šéfkuchaře';
 $_lang['foodmenu.image'] = 'Obrázek';
+$_lang['foodmenu.select_category'] = 'Vyberte kategorii';
+
 
 
 //Categories

@@ -8,12 +8,13 @@
 class FoodMenuDishGetListProcessor extends modObjectGetListProcessor {
     public $classKey = 'FoodMenuDish';
     public $languageTopics = array('foodmenu:default');
-    public $defaultSortField = 'position';
+    public $defaultSortField = 'company';
     public $defaultSortDirection = 'ASC';
     public $objectType = 'foodmenu';
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $query = $this->getProperty('query');
+        $filterCategory = $this->getProperty('filterCategory');
 
         $c->leftJoin('FoodMenuCategory', 'Category');
 
@@ -23,6 +24,19 @@ class FoodMenuDishGetListProcessor extends modObjectGetListProcessor {
                     'OR:description:LIKE' => '%'.$query.'%',
                 ));
         }
+
+        if (!empty($filterCategory)) {
+            $c->where(array(
+                           'category' => $filterCategory
+                      ));
+        }
+        $c->sortby('Category.position','ASC');
+        $c->sortby('FoodMenuDish.position','ASC');
+
+//        if ($this->getProperty('sort')) {
+//            $c->sortby($this->getProperty('sort'),$this->getProperty('dir'));
+//        }
+
         return $c;
     }
 
@@ -34,5 +48,7 @@ class FoodMenuDishGetListProcessor extends modObjectGetListProcessor {
 
         return $c;
     }
+
+
 }
 return 'FoodMenuDishGetListProcessor';

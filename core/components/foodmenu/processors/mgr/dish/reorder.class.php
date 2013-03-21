@@ -14,11 +14,12 @@ class FoodMenuReorderDishProcessor extends modObjectProcessor {
         $idItem = $this->getProperty('idItem');
         $oldIndex = $this->getProperty('oldIndex');
         $newIndex = $this->getProperty('newIndex');
-
+        $category = $this->getProperty('category');
 
         $items = $this->modx->newQuery($this->classKey);
         $items->where(array(
                 "id:!=" => $idItem,
+                "category" => $category,
                 "position:>=" => min($oldIndex, $newIndex),
                 "position:<=" => max($oldIndex, $newIndex),
             ));

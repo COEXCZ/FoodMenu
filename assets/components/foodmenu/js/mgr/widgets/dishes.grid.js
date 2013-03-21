@@ -9,7 +9,7 @@ FoodMenu.grid.Dishes = function(config) {
         }
         ,save_action: 'mgr/dish/updatefromgrid'
         ,autosave: true
-        ,fields: ['id','name','description', 'category', 'category_text', 'price', 'weight', 'tip', 'image']
+        ,fields: ['id','name','description', 'category', 'category_text', 'price', 'weight', 'tip', 'image', 'position']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -17,51 +17,68 @@ FoodMenu.grid.Dishes = function(config) {
         ,groupBy: 'category_text'
         ,singleText: _('foodmenu.dish')
         ,pluralText: _('foodmenu.dishes')
-        ,ddGroup: 'foodmenuItemDDGroup'
-        ,enableDragDrop: true
+        ,enableDragDrop: false
         ,columns: [{
             header: _('id')
             ,dataIndex: 'id'
             ,width: 70
         },{
-            header: _('foodmenu.category')
-            ,hidden: true
-            ,dataIndex: 'category_text'
-        },{
             header: _('foodmenu.name')
             ,dataIndex: 'name'
             ,width: 200
             ,editor: { xtype: 'textfield' }
+            ,sortable: true
         },{
             header: _('foodmenu.description')
             ,dataIndex: 'description'
             ,width: 250
             ,editor: { xtype: 'textfield' }
+            ,sortable: true
+        },{
+            header: _('foodmenu.category')
+            ,dataIndex: 'category_text'
+            ,hidden: true
         },{
             header: _('foodmenu.price')
             ,dataIndex: 'price'
             ,width: 250
             ,editor: { xtype: 'textfield' }
+            ,sortable: true
         },{
             header: _('foodmenu.weight')
             ,dataIndex: 'weight'
             ,width: 250
             ,editor: { xtype: 'textfield' }
+            ,sortable: true
         },{
             header: _('foodmenu.tip')
             ,dataIndex: 'tip'
             ,width: 250
-            ,editor: { xtype: 'modx-combo-boolean' }
+            ,editor: { xtype: 'modx-combo-boolean'  }
             ,renderer: this.rendYesNo
+            ,sortable: true
+        },{
+            header: _('foodmenu.posiiton')
+            ,dataIndex: 'position'
+            ,width: 250
+            ,editor: { xtype: 'textfield' }
+            ,sortable: true
         }]
         ,tbar: [{
             text: _('foodmenu.create_dish')
             ,handler: this.createDish
             ,scope: this
         },'->',{
+            xtype: 'foodmenu-extra-combo-categories'
+            ,id: 'foodmenu-category-filter'
+            ,emptyText: _('foodmenu.select_category')
+            ,listeners: {
+                'select': {fn:this.filterCategory,scope:this}
+            }
+        },{
             xtype: 'textfield'
             ,id: 'foodmenu-search-filter'
-            ,emptyText: _('foodmenu.search...')
+            ,emptyText: _('foodmenu.search') + '...'
             ,listeners: {
                 'change': {fn:this.search,scope:this}
                 ,'render': {fn: function(cmp) {
@@ -76,56 +93,12 @@ FoodMenu.grid.Dishes = function(config) {
                     });
                 },scope:this}
             }
+        },{
+            text: _('foodmenu.clear_filter')
+            ,handler: this.clearFilter
+            ,scope: this
         }]
-        ,listeners: {
-            'render': function(g) {
-                var ddrow = new Ext.ux.dd.GridReorderDropTarget(g, {
-                    copy: false
-                    ,listeners: {
-                        'beforerowmove': function(objThis, oldIndex, newIndex, records) {
-                        }
-
-                        ,'afterrowmove': function(objThis, oldIndex, newIndex, records) {
-
-                            MODx.Ajax.request({
-                                url: FoodMenu.config.connectorUrl
-                                ,params: {
-                                    action: 'mgr/dish/reorder'
-                                    ,idItem: records.pop().id
-                                    ,oldIndex: oldIndex
-                                    ,newIndex: newIndex
-                                }
-                                ,listeners: {
-
-                                }
-                            });
-                        }
-
-                        ,'beforerowcopy': function(objThis, oldIndex, newIndex, records) {
-                        }
-
-                        ,'afterrowcopy': function(objThis, oldIndex, newIndex, records) {
-                        }
-                    }
-                });
-
-                Ext.dd.ScrollManager.register(g.getView().getEditorParent());
-            }
-            ,beforedestroy: function(g) {
-                Ext.dd.ScrollManager.unregister(g.getView().getEditorParent());
-            }
-
-        }
     });
-
-//    this.view = new Ext.grid.GroupingView({
-//        emptyText: config.emptyText || _('ext_emptymsg')
-//        ,forceFit: true
-//        ,autoFill: true
-//        ,showPreview: true
-//        ,enableRowBody: true
-//        ,scrollOffset: 0
-//    });
 
     FoodMenu.grid.Dishes.superclass.constructor.call(this,config);
 };
@@ -200,7 +173,16 @@ Ext.extend(FoodMenu.grid.Dishes,MODx.grid.Grid,{
         var s = this.getStore();
         s.baseParams.query = tf.getValue();
         this.getBottomToolbar().changePage(1);
-        this.refresh();
+//        this.refresh();
+    }
+    
+    ,clearFilter: function(){
+        Ext.getCmp('foodmenu-category-filter').reset();
+        Ext.getCmp('foodmenu-search-filter').reset();
+        this.getStore().setBaseParam('filterCategory',null);
+        this.getStore().setBaseParam('query',null);
+        this.getBottomToolbar().changePage(1);
+//        this.refresh();
     }
 
     ,getDragDropText: function(){
