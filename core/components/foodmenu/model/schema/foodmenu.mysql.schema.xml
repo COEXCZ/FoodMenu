@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="foodmenu" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" phpdoc-package="foodmenu">
+    <object class="FoodMenuDish" table="foodmenu_dishes" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="category" dbtype="int" phptype="int" null="false" default="" />
+        <field key="description" dbtype="text" phptype="text" null="true" />
+        <field key="price" dbtype="decimal" precision="10,2" phptype="float" null="false" />
+        <field key="weight" dbtype="varchar" precision="32" phptype="varchar" null="true" />
+        <field key="tip" dbtype="tinyint" precision="1" phptype="integer" null="false" default="0" />
+        <field key="image" dbtype="varchar" precision="128" phptype="string" null="false" default="" />
+        <field key="position" dbtype="int" precision="10" phptype="integer" null="false"/>
+
+        <aggregate alias="Category" class="FoodMenuCategory" local="category" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+
+    <object class="FoodMenuCategory" table="foodmenu_categories" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="position" dbtype="int" precision="10" phptype="integer" null="false"/>
+
+        <composite alias="Dishes" class="FoodMenuDish" local="id" foreign="category" cardinality="many" owner="local" />
+
+    </object>
+</model>
