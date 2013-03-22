@@ -20,9 +20,19 @@ class FoodMenuDishCreateProcessor extends modObjectCreateProcessor {
 
     public function beforeSave() {
         $name = $this->getProperty('name');
+        $category = $this->getProperty('category');
+        $price = $this->getProperty('price');
 
         if (empty($name)) {
             $this->addFieldError('name',$this->modx->lexicon('foodmenu.dish_err_ns_name'));
+        }
+
+        if (empty($category)) {
+            $this->addFieldError('category',$this->modx->lexicon('foodmenu.dish_err_ns_category'));
+        }
+
+        if (empty($price)) {
+            $this->addFieldError('price',$this->modx->lexicon('foodmenu.dish_err_ns_price'));
         }
         return parent::beforeSave();
     }

@@ -221,6 +221,7 @@ Ext.extend(FoodMenu.window.CreateUpdateItem,MODx.Window, {
             ,layout: 'form'
             ,defaults: {
                 width: '100%'
+                ,msgTarget: 'under'
                 ,labelSeparator: ''
             }
             ,items: this.itemsColumnLeft(config)
@@ -230,6 +231,7 @@ Ext.extend(FoodMenu.window.CreateUpdateItem,MODx.Window, {
             ,cls: 'no-right-margin'
             ,defaults: {
                 width: '100%'
+                ,msgTarget: 'under'
                 ,labelSeparator: ''
             }
             ,items: this.itemsColumnRight(config)
@@ -251,6 +253,7 @@ Ext.extend(FoodMenu.window.CreateUpdateItem,MODx.Window, {
             ,name: 'name'
             ,id: this.ident+'-name'
             ,anchor: '100%'
+            ,itemCls: 'required'
         },{
             xtype: 'textarea'
             ,fieldLabel: _('foodmenu.description')
@@ -263,6 +266,7 @@ Ext.extend(FoodMenu.window.CreateUpdateItem,MODx.Window, {
             ,name: 'category'
             ,id: this.ident+'-category'
             ,anchor: '100%'
+            ,itemCls: 'required'
         });
 
         return items;
@@ -277,6 +281,7 @@ Ext.extend(FoodMenu.window.CreateUpdateItem,MODx.Window, {
             ,name: 'price'
             ,id: this.ident+'-price'
             ,anchor: '100%'
+            ,itemCls: 'required'
         },{
             xtype: 'textfield'
             ,fieldLabel: _('foodmenu.weight')
