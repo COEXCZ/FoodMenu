@@ -15,6 +15,7 @@ FoodMenu.grid.Categories = function(config) {
         ,remoteSort: true
         ,ddGroup: 'foodmenuCategoryDDGroup'
         ,enableDragDrop: true
+        ,preventRender: true
         ,columns: [{
             header: _('id')
             ,dataIndex: 'id'

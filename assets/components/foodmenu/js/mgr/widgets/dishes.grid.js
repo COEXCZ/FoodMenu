@@ -18,6 +18,7 @@ FoodMenu.grid.Dishes = function(config) {
         ,singleText: _('foodmenu.dish')
         ,pluralText: _('foodmenu.dishes')
         ,enableDragDrop: false
+        ,preventRender: true
         ,columns: [{
             header: _('id')
             ,dataIndex: 'id'
