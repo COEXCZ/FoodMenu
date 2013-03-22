@@ -11,6 +11,7 @@ class FoodMenuHomeManagerController extends FoodMenuBaseManagerController {
     }
     public function getPageTitle() { return $this->modx->lexicon('foodmenu'); }
     public function loadCustomCssJs() {
+        $this->addJavascript($this->foodmenu->config['jsUrl'].'mgr/extra/griddraganddrop.js');
         $this->addJavascript($this->foodmenu->config['jsUrl'].'mgr/extra/categories.combo.js');
 
         $this->addJavascript($this->foodmenu->config['jsUrl'].'mgr/widgets/categories.grid.js');
