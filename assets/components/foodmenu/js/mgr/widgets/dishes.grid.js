@@ -102,14 +102,12 @@ FoodMenu.grid.Dishes = function(config) {
         ,listeners: {
             'afterrender': {
                 fn: function() {
-                    console.log('1');
                     this.getView().refresh();
                 }
                 ,scope: this
             }
             ,'viewready': {
                 fn: function() {
-                    console.log(2);
                     this.getView().refresh();
                 }
                 ,scope: this
