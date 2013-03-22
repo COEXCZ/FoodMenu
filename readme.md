@@ -33,7 +33,7 @@ Postup je obdobný jako pro [Developing an Extra in MODX Revolution, Part II](ht
 
 ## Licence ##
 
-Vydáno pod [MIT licence](http://www.opensource.org/licenses/mit-license.php).
+Vydáno pod [GNU General Public License v2](http://www.gnu.org/licenses/gpl-2.0.html).
 
 ----------
 
@@ -44,4 +44,4 @@ Vydáno pod [MIT licence](http://www.opensource.org/licenses/mit-license.php).
 
 ## License ##
 
-Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+Released under the [GNU General Public License v2](http://www.gnu.org/licenses/gpl-2.0.html).
