@@ -1,6 +1,6 @@
 # Jídelní lístek - ukázková komponenta
 
-Ukázková komponenta pro MODX Revolution ku příložitosti konání Czech MODX Day v Praze.
+Ukázková komponenta pro MODX Revolution ku příležitosti konání Czech MODX Day v Praze.
 
 Účelem je prezentace možností a problematiky vytváření vlastních komponent v MODX Revolution. Celá komponenta se má finálně sestávat z administrační čísti tzv. CMP (Custom Manager Pages), kde je možno spravovat kategorie jídel (Hotovky, Minutky, ...) a vlastní jídla nabídce. Webová část obsahuje snippet pro výpis jídelního lístku za využití snippetů, které umožňují vlastní volbu struktury HTML.
 
@@ -37,7 +37,7 @@ Vydáno pod [MIT licence](http://www.opensource.org/licenses/mit-license.php).
 
 ----------
 
-# Food Menu - example component
+# Food Menu - sample component
 
 ## Development instalation ##
 - similar to [Developing an Extra in MODX Revolution, Part II](http://rtfm.modx.com/display/revolution20/Developing+an+Extra+in+MODX+Revolution%2C+Part+II)
