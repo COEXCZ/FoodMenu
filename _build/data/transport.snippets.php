@@ -31,8 +31,8 @@ $snippets[0]= $modx->newObject('modSnippet');
 $snippets[0]->fromArray(array(
     'id' => 0,
     'name' => 'FoodMenu',
-    'description' => 'Displays Items.',
-    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/snippet.foodmenu.php'),
+    'description' => 'Displays Dishes.',
+    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/FoodMenu.snippet.php'),
 ),'',true,true);
 $properties = include $sources['build'].'properties/properties.foodmenu.php';
 $snippets[0]->setProperties($properties);

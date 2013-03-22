@@ -34,7 +34,8 @@ if ($object->xpdo) {
 
             $manager = $modx->getManager();
 
-            $manager->createObjectContainer('FoodMenuItem');
+            $manager->createObjectContainer('FoodMenuDish');
+            $manager->createObjectContainer('FoodMenuCategory');
 
             break;
         case xPDOTransport::ACTION_UPGRADE:

@@ -8,7 +8,6 @@ $FoodMenu = $modx->getService('foodmenu', 'FoodMenu', $modx->getOption('foodmenu
 if (!($FoodMenu instanceof FoodMenu)) return '';
 
 $output = array();
-$output_dishes = array();
 
 // set variables
 $tpl = $modx->getOption('tpl', $scriptProperties, 'Category');
@@ -24,6 +23,8 @@ $c->sortBy('position', 'asc');
 $categories = $modx->getCollection('FoodMenuCategory', $c);
 
 foreach ($categories as $cat) {
+    $output_dishes = array();
+
     $cat = $cat->toArray();
 
     // get dishes for current category
