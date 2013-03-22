@@ -192,6 +192,7 @@ FoodMenu.window.CreateUpdateCategory = function(config) {
             ,name: 'name'
             ,id: this.ident+'-name'
             ,anchor: '100%'
+            ,itemCls: 'required'
         }]
     });
     FoodMenu.window.CreateUpdateCategory.superclass.constructor.call(this,config);

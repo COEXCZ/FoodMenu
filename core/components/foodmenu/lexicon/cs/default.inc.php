@@ -42,6 +42,9 @@ $_lang['foodmenu.categories.remove_category_confirm'] = 'Opravdu chcete odstrani
 //Errors
 $_lang['foodmenu.categories.category_err_ns_name'] = 'Musíte vyplnit název kategorie';
 $_lang['foodmenu.categories.category_err_ae'] = 'Kategorie s tímto názvem již existuje';
+$_lang['foodmenu.dish_err_ns_category'] = 'Musíte vypltnit kategorii';
+$_lang['foodmenu.dish_err_ns_price'] = 'Musíte vyplnit cenu';
+$_lang['foodmenu.dish_err_ns_name'] = 'Musíte vyplnit název';
 
 $_lang['foodmenu.item_err_ae'] = 'Položka s tímto názvem již existuje.';
 $_lang['foodmenu.item_err_nf'] = 'Položka nenalezena.';
