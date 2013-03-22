@@ -86,7 +86,12 @@ FoodMenu.grid.Categories = function(config) {
             ,beforedestroy: function(g) {
                 Ext.dd.ScrollManager.unregister(g.getView().getEditorParent());
             }
-
+            ,'viewready': {
+                fn: function() {
+                    this.getView().refresh();
+                }
+                ,scope: this
+            }
         }
     });
     FoodMenu.grid.Categories.superclass.constructor.call(this,config);

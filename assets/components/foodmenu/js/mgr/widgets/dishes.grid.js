@@ -99,6 +99,22 @@ FoodMenu.grid.Dishes = function(config) {
             ,handler: this.clearFilter
             ,scope: this
         }]
+        ,listeners: {
+            'afterrender': {
+                fn: function() {
+                    console.log('1');
+                    this.getView().refresh();
+                }
+                ,scope: this
+            }
+            ,'viewready': {
+                fn: function() {
+                    console.log(2);
+                    this.getView().refresh();
+                }
+                ,scope: this
+            }
+        }
     });
 
     FoodMenu.grid.Dishes.superclass.constructor.call(this,config);
