@@ -11,7 +11,13 @@ class FoodMenuDishCreateProcessor extends modObjectCreateProcessor {
     public $objectType = 'foodmenu';
 
     public function beforeSet(){
-        $items = $this->modx->getCollection($this->classKey);
+        $category = $this->getProperty('category');
+
+        if (empty($category)) {
+            $this->addFieldError('category',$this->modx->lexicon('foodmenu.dish_err_ns_category'));
+            return parent::beforeSet();
+        }
+        $items = $this->modx->getCollection($this->classKey, array('category' => $category));
 
         $this->setProperty('position', count($items));
 

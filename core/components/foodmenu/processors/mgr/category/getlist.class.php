@@ -16,8 +16,8 @@ class FoodMenuCategoriesGetListProcessor extends modObjectGetListProcessor {
         $query = $this->getProperty('query');
         if (!empty($query)) {
             $c->where(array(
-                    'name:LIKE' => '%'.$query.'%'
-                ));
+                           'name:LIKE' => '%'.$query.'%'
+                      ));
         }
         return $c;
     }

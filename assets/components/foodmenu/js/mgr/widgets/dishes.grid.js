@@ -17,7 +17,7 @@ FoodMenu.grid.Dishes = function(config) {
         ,groupBy: 'category_text'
         ,singleText: _('foodmenu.dish')
         ,pluralText: _('foodmenu.dishes')
-        ,enableDragDrop: false
+        ,enableDragDrop: true
         ,preventRender: true
         ,columns: [{
             header: _('id')
@@ -64,6 +64,7 @@ FoodMenu.grid.Dishes = function(config) {
             ,width: 250
             ,editor: { xtype: 'textfield' }
             ,sortable: true
+            ,hidden: true
         }]
         ,tbar: [{
             text: _('foodmenu.create_dish')
@@ -100,18 +101,81 @@ FoodMenu.grid.Dishes = function(config) {
             ,scope: this
         }]
         ,listeners: {
-            'afterrender': {
-                fn: function() {
-                    this.getView().refresh();
-                }
-                ,scope: this
+            'render': function(g) {
+                new Ext.dd.DropTarget(g.getEl(), {
+                    ddGroup: g.ddGroup || 'GridDD'
+                    ,grid: g
+                    ,gridDropTarget: this
+
+                    ,notifyOver: function(dd, e, data) {
+                        var t = Ext.lib.Event.getTarget(e);
+                        var dropIndex = this.grid.getView().findRowIndex(t);
+                        var dropElement = this.grid.store.data.items[dropIndex].data;
+                        var dragElement = this.grid.store.data.items[data.rowIndex].data;
+
+                        var sameElement = false;
+                        if (dropIndex == data.rowIndex) sameElement = true;
+
+                        return ((dropElement.category == dragElement.category) && (sameElement == false)) ? this.dropAllowed : this.dropNotAllowed;
+                    }
+
+                    ,notifyDrop: function(dd, e, data){
+                        // determine the row
+                        var t = Ext.lib.Event.getTarget(e);
+                        var dropIndex = this.grid.getView().findRowIndex(t);
+                        var dropElement = this.grid.store.data.items[dropIndex].data;
+                        var dragElement = this.grid.store.data.items[data.rowIndex].data;
+
+                        var sameElement = false;
+                        if (dropIndex == data.rowIndex) sameElement = true;
+
+                        if(!((dropElement.category == dragElement.category) && (sameElement == false))){
+                            return false
+                        }
+
+                        // fire the before move event
+//                        if (this.gridDropTarget.fireEvent('beforerowmove', this.gridDropTarget, dragElement.position, dropElement.position, data.selections) === false) return false;
+
+                        // update the store
+                        var ds = this.grid.getStore();
+                        for(var i = 0; i < data.selections.length; i++) {
+                            ds.remove(ds.getById(data.selections[i].id));
+                        }
+
+                        ds.insert(dropIndex,data.selections);
+
+                        // re-select the row(s)
+                        var sm = this.grid.getSelectionModel();
+                        if (sm) sm.selectRecords(data.selections);
+
+                        // fire the after move event
+//                        this.gridDropTarget.fireEvent('afterrowmove', this.gridDropTarget, data.rowIndex, dropIndex, data.selections);
+                        this.afterrowmove(this.gridDropTarget, data.rowIndex, dropIndex, data.selections);
+
+                        return true;
+                    }
+
+                    ,afterrowmove: function(objThis, oldIndex, newIndex, records) {
+                        var rec = records.pop().data;
+                        MODx.Ajax.request({
+                            url: FoodMenu.config.connectorUrl
+                            ,params: {
+                                action: 'mgr/dish/reorder'
+                                ,idItem: rec.id
+                                ,category: rec.category
+                                ,oldIndex: oldIndex
+                                ,newIndex: newIndex
+                            }
+                            ,listeners: {
+//                                'success': {fn:function() { this.grid.refresh(); },scope:this}
+                            }
+                        });
+                    }
+
+                });
+
             }
-            ,'viewready': {
-                fn: function() {
-                    this.getView().refresh();
-                }
-                ,scope: this
-            }
+
         }
     });
 
@@ -188,8 +252,13 @@ Ext.extend(FoodMenu.grid.Dishes,MODx.grid.Grid,{
         var s = this.getStore();
         s.baseParams.query = tf.getValue();
         this.getBottomToolbar().changePage(1);
-//        this.refresh();
     }
+    ,filterCategory: function(cb,rec,ri){
+        var s = this.getStore();
+        s.baseParams.filterCategory = rec.id;
+        this.getBottomToolbar().changePage(1);
+    }
+
     
     ,clearFilter: function(){
         Ext.getCmp('foodmenu-category-filter').reset();
@@ -197,12 +266,8 @@ Ext.extend(FoodMenu.grid.Dishes,MODx.grid.Grid,{
         this.getStore().setBaseParam('filterCategory',null);
         this.getStore().setBaseParam('query',null);
         this.getBottomToolbar().changePage(1);
-//        this.refresh();
     }
 
-    ,getDragDropText: function(){
-        return this.selModel.selections.items[0].data.name;
-    }
 });
 Ext.reg('foodmenu-grid-dishes',FoodMenu.grid.Dishes);
 
